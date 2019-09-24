@@ -1,0 +1,39 @@
+language: julia
+os:
+  - linux
+julia:
+  - 1.0
+notifications:
+  email: false
+git:
+  depth: 99999999
+cache:
+  timeout: 1000
+  directories:
+    - downloads
+env:
+  global:
+    - BINARYBUILDER_DOWNLOADS_CACHE=downloads
+    - BINARYBUILDER_AUTOMATIC_APPLE=false
+sudo: required
+
+# Before anything else, get the latest versions of things
+before_script:
+  - julia -e 'using Pkg; pkg"add BinaryProvider"; pkg"add BinaryBuilder#master"; Pkg.build()'
+
+script:
+  - julia build_tarballs.jl
+
+
+deploy:
+    provider: releases
+    api_key:
+        # Note; this api_key is only valid for tanmaykm/DexBuilder; you need
+        # to make your own: https://docs.travis-ci.com/user/deployment/releases/
+        secure: p6D4+sgO/abjbQhZVPIG5MR4/R9E+Tj0FdJF5dPHojb/sUO6hh0RyLoAuII37kV4AVf/hE51R53YHwQK/SGkbmomUBwiDwL23DA6AW3Hheau+ae1uTdkouxFG2EOMT1k/LwHcs77hdgzK+th+tMOyIPU2i0Ccv0MJPQeBNBztHzx5Z4d5StAItj3o+jw3TAQjL5tgDpQUD8D7U14qOrIxaZ+Jbo4a3K3Q2RiheD5wXt7evvWSobdzxTEd9wwbxV/l8hHX0mZzXflmJSNCizsUz0enmfxIY2SF7U0Iq2oA7QmXDPUu7blb3EqnReEQZGL6CB7U0EIvhjQoVv1e9Z9ToPzd6Iq9CfK7jKLav3c59qXShP1eV9kKL4/R9GQc207EVKOWF57yeMNxQPfelWF2yB52/C/LlIQe5RoTZrRpXJe3HCwuk3JMZukNep+33/3ZpfMi+CgF/FllrMR89mjTvVQwdSLF3PTteVNFH5hdfr/psTa+H1on76MM3WsTiymPkwgckFVqf1pKOnDnlk4y0tNR3MBjgyr0V4zZbnm92/ikW1PvLR1acY8C3gSu7u2vh7g+QgvsWYaRjz0eyS2h9t14K/ZRgVIN4qVXaPJBJ5oBTDv0YC3sWf71oIE1hZuydynHPjsQxJHu4WPAizWVV4/86nyFM7alPlFAHnla/k=
+    file_glob: true
+    file: products/*
+    skip_cleanup: true
+    on:
+        repo: tanmaykm/DexBuilder
+        tags: true
