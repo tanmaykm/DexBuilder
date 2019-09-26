@@ -31,6 +31,7 @@ mkdir -p $prefix/bin
 mkdir -p $prefix/lib
 cp $GOPATH/src/github.com/dexidp/dex/bin/* $prefix/bin/
 cp $GOPATH/bin/bcrypt-cli $prefix/bin/
+tar -czvf $prefix/lib/webtemplates.tar.gz -C $GOPATH/src/github.com/dexidp/dex/web static templates themes
 """
 
 # These are the platforms we will build for by default, unless further
