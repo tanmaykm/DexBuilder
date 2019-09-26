@@ -27,10 +27,10 @@ export PATH=$PATH:$WORKSPACE/srcdir/go/bin
 go get github.com/bitnami/bcrypt-cli
 cd $GOPATH/src/github.com/dexidp/dex
 make
-cp $GOPATH/src/github.com/dexidp/dex/bin/dex $WORKSPACE/destdir/
-cp $GOPATH/src/github.com/dexidp/dex/bin/grpc-client $WORKSPACE/destdir/
-cp $GOPATH/bin/bcrypt-cli $WORKSPACE/destdir/
-
+mkdir -p $prefix/bin
+mkdir -p $prefix/lib
+cp $GOPATH/src/github.com/dexidp/dex/bin/* $prefix/bin/
+cp $GOPATH/bin/bcrypt-cli $prefix/bin/
 """
 
 # These are the platforms we will build for by default, unless further
